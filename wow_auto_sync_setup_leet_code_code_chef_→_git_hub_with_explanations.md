@@ -1,4 +1,4 @@
-# 🚀 WOW Auto‑Sync Setup (Like I’m 5)
+# 🚀  Auto‑Sync Setup 
 
 Goal: When you solve problems on **LeetCode** or **CodeChef**, your code goes to **GitHub** automatically and a **README** with explanation appears.
 
