@@ -1,4 +1,4 @@
-# WOW Auto Sync (LeetCode + CodeChef → GitHub with Explanations)
+# Auto Sync (LeetCode + CodeChef → GitHub with Explanations)
 
 This repo is set up to:
 - ✅ Auto-commit LeetCode solutions (use the **LeetHub** browser extension)
