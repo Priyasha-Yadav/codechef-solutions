@@ -1,0 +1,39 @@
+name: Explain New Solutions
+
+on:
+  push:
+    paths:
+      - 'leetcode/**'
+      - 'codechef/**'
+      - 'scripts/**'
+  schedule:
+    - cron: '0 12 * * *'  # runs daily at 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  explain:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate/Update READMEs
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/explain.py
+
+      - name: Auto-commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: add/update problem READMEs with explanations"
+          branch: ${{ github.ref_name }}
