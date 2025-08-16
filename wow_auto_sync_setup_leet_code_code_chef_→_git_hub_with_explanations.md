@@ -9,19 +9,12 @@ You’ll do three tiny things:
 
 ---
 
-## ✅ Step 0 — Download the starter kit (easy peasy)
-**Download:** wow-sync-starter.zip (I’ll give you the link below in chat). Unzip it. This is your repo starter.
-
-You’ll upload these files to your new GitHub repo in **Step 1**.
-
----
-
 ## ✅ Step 1 — Make your GitHub repo
 1. Go to **github.com → New repository**
 2. Name it: `coding-solutions` (or anything)
 3. Click **Create repository**
 4. Click **Add file → Upload files**
-5. Drag‑drop everything **inside** the `wow-sync-starter/` folder (from the ZIP) into GitHub and **Commit**
+5. Clone the repo
 
 > You should now see folders: `.github/`, `scripts/`, `tools/`, and files `requirements.txt`, `README.md`.
 
@@ -122,6 +115,3 @@ You do nothing extra. Just solve and click.
 
 ## 🎯 You’re done!
 Solve problems. Watch your repo fill up with folders — each with your code **and** a neat explanation.
-
-If you want me to pre‑fill the usernames in your script and workflow, tell me your GitHub username and repo name and I’ll paste the ready files for you.
-
