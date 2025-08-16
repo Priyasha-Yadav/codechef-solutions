@@ -1,0 +1,26 @@
+/*struct Node {
+    int val;
+    struct Node* next;
+    Node(int x){
+        val = x;
+        next = NULL;
+    }
+};*/
+
+int getMiddleElement(Node* head){
+    Node*ptr = head;
+    int size = 0;
+    if(!head) return 0;
+    if(!head->next) return head->val;
+    while(ptr != nullptr){
+        ptr = ptr->next;
+        size++;
+        
+    }
+    ptr = head;
+    for(int i = 1; i< (size/2) + 1; i++){
+        ptr = ptr->next;
+    }
+    return ptr->val;
+     
+}
