@@ -1,0 +1,4 @@
+-- your code goes here
+SELECT MOVIE_NAME
+FROM CINEMA
+WHERE RATING > 7 AND RATING < 9;
