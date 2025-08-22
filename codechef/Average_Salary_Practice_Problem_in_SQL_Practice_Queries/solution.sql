@@ -1,0 +1,3 @@
+-- your code goes here
+
+SELECT (SUM(SALARY)*1.0)/COUNT(SALARY) AS AVG_SALARY FROM WORKS;
