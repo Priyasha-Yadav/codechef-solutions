@@ -1,0 +1,2 @@
+-- your code goes here
+SELECT DISTINCT COMPANY_NAME FROM WORKS;
