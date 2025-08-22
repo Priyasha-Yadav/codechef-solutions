@@ -1,0 +1,2 @@
+-- your code goes here
+SELECT DEPARTMENT_NAME, LOCATION FROM DEPARTMENTS WHERE Location LIKE 'S%';
