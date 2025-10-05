@@ -57,8 +57,7 @@ def fetch_codechef_description(code: str) -> Optional[str]:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(r.text, "html.parser")
         main = soup.find(id="problem-statement") or soup.find("div", class_="problem-statement") or soup.find("section")
-        text = main.get_text("\n").strip() if main else None
-        return text
+        return main.get_text("\n").strip() if main else None
     except Exception:
         return None
 
@@ -71,16 +70,14 @@ def fetch_leetcode_description(slug: str) -> Optional[str]:
             return None
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(r.text, "html.parser")
-        article = soup.find("div", attrs={"data-track-load":"description_content"}) or soup.find("article") or soup.find("div")
+        article = soup.find("div", attrs={"data-track-load": "description_content"}) or soup.find("article") or soup.find("div")
         return article.get_text("\n").strip() if article else None
     except Exception:
         return None
 
 
 def exa_explain(problem_title: str, platform: str, code: str, description: Optional[str]) -> Optional[str]:
-    """
-    Calls Exa AI API to generate a beginner-friendly explanation of the code/problem.
-    """
+    """Calls Exa AI API to generate a beginner-friendly explanation of the code/problem."""
     query_text = f"""Explain the following {platform} problem and solution clearly for beginners:
 
 Title: {problem_title}
