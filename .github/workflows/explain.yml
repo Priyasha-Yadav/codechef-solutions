@@ -28,6 +28,40 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # ===== Add this test step =====
+      - name: Test OPENAI_API_KEY
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python - << EOF
+          import os, requests, json
+          key = os.getenv("OPENAI_API_KEY")
+          if not key:
+              print("❌ OPENAI_API_KEY missing!")
+          else:
+              print("✅ OPENAI_API_KEY detected!")
+              # Optional: small API call to test key
+              try:
+                  data = {
+                      "model": "gpt-3.5-turbo",
+                      "messages": [{"role":"user","content":"Say hello"}],
+                      "temperature": 0
+                  }
+                  resp = requests.post(
+                      "https://api.openai.com/v1/chat/completions",
+                      headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                      data=json.dumps(data),
+                      timeout=10
+                  )
+                  print("Status:", resp.status_code)
+                  if resp.status_code == 200:
+                      print("✅ API key works!")
+                  else:
+                      print("❌ API call failed:", resp.text)
+              except Exception as e:
+                  print("❌ Exception:", e)
+          EOF
+
       - name: Generate/Update READMEs
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
