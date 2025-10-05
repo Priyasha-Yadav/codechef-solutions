@@ -4,9 +4,10 @@ on:
   push:
     paths:
       - 'codechef/**'
+      - 'leetcode/**'
       - 'scripts/**'
   schedule:
-    - cron: '0 12 * * *'  
+    - cron: '0 12 * * *'  # runs daily at 12:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -15,23 +16,26 @@ jobs:
     permissions:
       contents: write
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  
 
+      # 2️⃣ Setup Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # ===== Add this test step =====
-      - name: Test OPENAI_API_KEY
+      # 4️⃣ Test Exa API key
+      - name: Test Exa API Key
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}  # Exa key stored here
         run: |
           python - << EOF
           import os, requests, json
@@ -40,36 +44,31 @@ jobs:
               print("❌ OPENAI_API_KEY missing!")
           else:
               print("✅ OPENAI_API_KEY detected!")
-              # Optional: small API call to test key
               try:
-                  data = {
-                      "model": "gpt-3.5-turbo",
-                      "messages": [{"role":"user","content":"Say hello"}],
-                      "temperature": 0
-                  }
                   resp = requests.post(
-                      "https://api.openai.com/v1/chat/completions",
-                      headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-                      data=json.dumps(data),
+                      "https://api.exa.ai/search",
+                      headers={"x-api-key": key, "Content-Type": "application/json"},
+                      json={"query":"Say hello","text": True,"num_results": 1},
                       timeout=10
                   )
                   print("Status:", resp.status_code)
                   if resp.status_code == 200:
-                      print("✅ API key works!")
+                      print("✅ Exa API key works!")
                   else:
                       print("❌ API call failed:", resp.text)
               except Exception as e:
                   print("❌ Exception:", e)
           EOF
 
+      # 5️⃣ Generate/Update READMEs
       - name: Generate/Update READMEs
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/explain.py
 
+      # 6️⃣ Auto-commit changes
       - name: Auto-commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          pull: true                 
           commit_message: "chore: add/update problem READMEs with explanations"
           branch: ${{ github.ref_name }}
