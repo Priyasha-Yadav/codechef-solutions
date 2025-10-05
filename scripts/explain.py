@@ -121,7 +121,6 @@ def write_readme(dir_path: pathlib.Path, title: str, platform: str, code_text: s
         existing = read_text(readme).strip()
         if len(existing) > 20:
             return
-
     snippet = "\n".join(code_text.splitlines()[:30])
     generated = ai_exp or "*(Add your explanation here)*"
     content = f"""# {title} ({platform})
@@ -139,7 +138,7 @@ def write_readme(dir_path: pathlib.Path, title: str, platform: str, code_text: s
 ## Code (first ~30 lines preview)
 ```{dir_path.suffix if dir_path.suffix else ''}
 {snippet}
-```
+
 """
     readme.write_text(content, encoding="utf-8")
 
